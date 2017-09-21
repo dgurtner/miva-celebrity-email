@@ -1,9 +1,12 @@
+<mvt:comment>Don't run unless the user is the specific URL of /special.html?special_mail=celeb (in this example)</mvt:comment>
 <mvt:if expr="NOT ISNULL g.special_mail AND g.special_mail EQ 'celeb'">
+	<mvt:comment>Make sure all form fields are filled out</mvt:comment>
 	<mvt:if expr="NOT ISNULL g.special_email_sent AND g.special_email_sent EQ 'yes' AND NOT ISNULL g.special_mail_username AND NOT ISNULL g.special_mail_celebname AND NOT ISNULL g.special_mail_useremail">
 		<mvt:comment>Create email vars from form submission</mvt:comment>
 		<mvt:assign name="g.send_special_mail_useremail" value="g.special_mail_useremail" />
 		<mvt:assign name="g.send_special_celebemail" value="glosub( g.special_mail_celebname, ' ', '' ) $ '@gmail.com'" />
 		<mvt:assign name="g.send_special_subject" value="'a special message from ' $ g.special_mail_celebname" />
+		<mvt:comment>The email will have the same layout as you create here. If you're using indentation via tabs, then the email's layout will be indented with tabs too. If you add extra line-breaks, those will carry over too. </mvt:comment>
 		<mvt:assign name="g.send_special_message" value="
 'Dear ' $ g.special_mail_username $ ',
 
@@ -13,7 +16,10 @@ Love,
 
 ' $ g.special_mail_celebname
 " />
+		<mvt:comment>Send the email</mvt:comment>
 		<mvt:do file="g.module_library_utilities" name="g.email_sent" value="SendEmail(g.send_special_mail_useremail,g.send_special_celebemail,'',g.send_special_subject,'',g.send_special_message)" />
+
+		<mvt:comment>get notified when an email gets sent out and receive the submitted values</mvt:comment>
 		<mvt:assign name="g.notification_sendto" value="'myemailadress@example.com'" />
 		<mvt:assign name="g.notification_sendfrom" value="'no-reply@mymivastore.com'" />
 		<mvt:assign name="g.notification_subject" value="'an email was sent using the celebrity email script'" />
@@ -29,6 +35,7 @@ Love,
 		<p><a href="/special.html?special_mail=celeb">send another</a></p>
 
 	<mvt:else>
+		<mvt:comment>The form that the user fills out</mvt:comment>
 		<h5>please fill out the form</h5>
 		<form method="get" action="/special.html" class="special_mail">
 			<input type="hidden" name="special_mail" value="celeb" size="5" />
