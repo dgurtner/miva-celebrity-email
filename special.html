@@ -1,1 +1,48 @@
+<mvt:if expr="NOT ISNULL g.special_mail AND g.special_mail EQ 'celeb'">
+	<mvt:if expr="NOT ISNULL g.special_email_sent AND g.special_email_sent EQ 'yes' AND NOT ISNULL g.special_mail_username AND NOT ISNULL g.special_mail_celebname AND NOT ISNULL g.special_mail_useremail">
+		<mvt:comment>Create email vars from form submission</mvt:comment>
+		<mvt:assign name="g.send_special_mail_useremail" value="g.special_mail_useremail" />
+		<mvt:assign name="g.send_special_celebemail" value="glosub( g.special_mail_celebname, ' ', '' ) $ '@gmail.com'" />
+		<mvt:assign name="g.send_special_subject" value="'a special message from ' $ g.special_mail_celebname" />
+		<mvt:assign name="g.send_special_message" value="
+'Dear ' $ g.special_mail_username $ ',
 
+Thanks so much for all your support, you have inspired me to work on my new project and follow my dreams.
+
+Love,
+
+' $ g.special_mail_celebname
+" />
+		<mvt:do file="g.module_library_utilities" name="g.email_sent" value="SendEmail(g.send_special_mail_useremail,g.send_special_celebemail,'',g.send_special_subject,'',g.send_special_message)" />
+		<mvt:assign name="g.notification_sendto" value="'myemailadress@example.com'" />
+		<mvt:assign name="g.notification_sendfrom" value="'no-reply@mymivastore.com'" />
+		<mvt:assign name="g.notification_subject" value="'an email was sent using the celebrity email script'" />
+		<mvt:assign name="g.notification_message" value="'
+		recipient name: ' $ g.special_mail_username $ '
+		recipient email: ' $ g.send_special_mail_useremail $ '
+		celebrity name: ' $ g.special_mail_celebname $ '
+		celebrity email: ' $ g.send_special_celebemail
+		" />
+		<mvt:do file="g.module_library_utilities" name="g.email_sent" value="SendEmail(g.notification_sendto,g.notification_sendfrom,'',g.notification_subject,'',g.notification_message)" />
+
+		<p>Thanks for your submission. Check your email and also check your spam folder.</p>
+		<p><a href="/special.html?special_mail=celeb">send another</a></p>
+
+	<mvt:else>
+		<h5>please fill out the form</h5>
+		<form method="get" action="/special.html" class="special_mail">
+			<input type="hidden" name="special_mail" value="celeb" size="5" />
+			<input type="hidden" name="special_email_sent" value="yes" size="3" />
+			<label>your first name</label>
+			<input type="text" name="special_mail_username" value="" size="50" required="required" />
+			<label>your favorite celebrity</label>
+			<input type="text" name="special_mail_celebname" value="" size="50" required="required" />
+			<label>your email address</label>
+			<input type="email" name="special_mail_useremail" value="" size="100" required="required" />
+			<input type="submit" value="submit">
+		</form>
+	</mvt:if>
+
+<mvt:else>
+	<p>this page is blank because you're not using the special link.</p>
+</mvt:if>
