@@ -1,4 +1,4 @@
-<mvt:comment>Don't run unless the user is the specific URL of /special.html?special_mail=celeb (in this example)</mvt:comment>
+<mvt:comment>Don't run unless the user is using the specific URL of /special.html?special_mail=celeb (in this example)</mvt:comment>
 <mvt:if expr="NOT ISNULL g.special_mail AND g.special_mail EQ 'celeb'">
 	<mvt:comment>Make sure all form fields are filled out</mvt:comment>
 	<mvt:if expr="NOT ISNULL g.special_email_sent AND g.special_email_sent EQ 'yes' AND NOT ISNULL g.special_mail_username AND NOT ISNULL g.special_mail_celebname AND NOT ISNULL g.special_mail_useremail">
