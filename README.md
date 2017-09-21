@@ -9,5 +9,5 @@ Yes, I can see how this logic can easily be manipulated and misused to send out 
 
 
 # More Miva 
-Developers: https://docs.miva.com/developer and http://www.mivascript.com/
+Developers: https://docs.miva.com/developer and http://www.mivascript.com/ <br />
 Store Owners: https://www.miva.com/platform-overview
